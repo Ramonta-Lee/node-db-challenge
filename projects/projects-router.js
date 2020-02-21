@@ -15,13 +15,39 @@ router.get("/", (req, res) => {
     });
 });
 
+router.post("/", (req, res) => {
+  Projects.addProject()
+    .then(project => {
+      res.status(200).json(project);
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ message: "Failed to add Project" });
+    });
+});
+
 router.get("/resources", (req, res) => {
   Projects.getResources()
     .then(resources => {
       res.status(200).json(resources);
     })
 
-    .catch();
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ message: "Failed to get list of resources." });
+    });
 });
 
-module.exports = router();
+router.get("/task/:id", (req, res) => {
+  const { id } = req.params;
+  Projects.getTasks(id)
+    .then(tasks => {
+      res.status(200).json(tasks);
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ message: "Failed to retrieve list of tasks" });
+    });
+});
+
+module.exports = router;
