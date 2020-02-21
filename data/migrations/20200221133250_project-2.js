@@ -53,8 +53,8 @@ exports.up = function(knex) {
     });
 };
 
-exports.down = async function(knex) {
-  return await knex.schema
+exports.down = function(knex) {
+  return knex.schema
     .dropTableIfExists("project_resources")
     .dropTableIfExists("task")
     .dropTableIfExists("resources")
