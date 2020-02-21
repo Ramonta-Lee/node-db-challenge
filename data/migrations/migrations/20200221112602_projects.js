@@ -25,7 +25,37 @@ exports.up = function(knex) {
         .boolean("completed")
         .notNullable()
         .defaultTo(false);
+    })
+    .createTable("resources", tbl => {
+      tbl.increments();
+      tbl.string("name", 256).notNullable();
+      tbl.string("description", 256).notNullable();
+      tbl.string("notes", 255);
+    })
+    .createTable("project_resources", tbl => {
+      tbl.primary(["project_id", "resources_id"]);
+      tbl
+        .integer("project_id")
+        .unsigned()
+        .notNullable()
+        .references("id")
+        .inTable("projects")
+        .onDelete("CASCADE")
+        .onUpdate("CASCADE");
+      tbl
+        .integer("resources_id")
+        .unsigned()
+        .notNullable()
+        .references("id")
+        .inTable("resources")
+        .onDelete("CASCADE")
+        .onUpdate("CASCADE");
     });
 };
 
-exports.down = function(knex) {};
+exports.down = async function(knex) {
+  await knex.schema.dropTableIfExists("project_resources");
+  await knex.schema.dropTableIfExists("resources");
+  await knex.schema.dropTableIfExists("task");
+  await knex.schema.dropTableIfExists("projects");
+};
