@@ -7,7 +7,7 @@ exports.up = function(knex) {
       tbl
         .boolean("completed")
         .notNullable()
-        .defaultTo(false);
+        .defaultTo(0);
     })
     .createTable("task", tbl => {
       tbl.increments();
@@ -24,7 +24,7 @@ exports.up = function(knex) {
       tbl
         .boolean("completed")
         .notNullable()
-        .defaultTo(false);
+        .defaultTo(0);
     })
     .createTable("resources", tbl => {
       tbl.increments();

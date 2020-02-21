@@ -16,7 +16,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  Projects.addProject()
+  Projects.addProject(req.body)
     .then(project => {
       res.status(200).json(project);
     })
@@ -41,7 +41,9 @@ router.get("/resources", (req, res) => {
 router.post("/resources", (req, res) => {
   const resource = req.body;
   Projects.addResource(resource)
-    .then(resource)
+    .then(resource => {
+      res.status(201).json(resource);
+    })
     .catch(error => {
       console.log(error);
       res.status(500).json({ error: "Failed to add Resource" });
@@ -61,8 +63,8 @@ router.get("/tasks", (req, res) => {
 router.post("/tasks", (req, res) => {
   const task = req.body;
   Projects.addTasks(task)
-    .then(task => {
-      res.status(201).json(task);
+    .then(tasks => {
+      res.status(201).json(tasks);
     })
     .catch(error => {
       console.log(error);

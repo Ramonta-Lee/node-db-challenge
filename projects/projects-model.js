@@ -36,5 +36,5 @@ function getTasks() {
 }
 
 function addTasks(task) {
-  return db("tasks").insert(task, "id");
+  return db("task").insert(task, "id");
 }
