@@ -38,15 +38,35 @@ router.get("/resources", (req, res) => {
     });
 });
 
-router.get("/task/:id", (req, res) => {
-  const { id } = req.params;
-  Projects.getTasks(id)
+router.post("/resources", (req, res) => {
+  const resource = req.body;
+  Projects.addResource(resource)
+    .then(resource)
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ error: "Failed to add Resource" });
+    });
+});
+
+router.get("/tasks", (req, res) => {
+  Projects.getTasks()
     .then(tasks => {
       res.status(200).json(tasks);
     })
     .catch(error => {
       console.log(error);
       res.status(500).json({ message: "Failed to retrieve list of tasks" });
+    });
+});
+router.post("/tasks", (req, res) => {
+  const task = req.body;
+  Projects.addTasks(task)
+    .then(task => {
+      res.status(201).json(task);
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ message: "Failed to add task" });
     });
 });
 
